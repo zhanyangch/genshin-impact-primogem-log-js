@@ -58,7 +58,6 @@ async function getLog(end_id) {
 		`&lang=${Lang}` +
 		`&sign_type=${sign_type}`+
 		`&authkey_ver=${AuthKeyVer}` +
-		// `&auth_appid=${auth_appid}` +
 		`&size=${20}` +
 		`&end_id=${end_id}`
 	)
@@ -72,7 +71,6 @@ async function getLogs() {
 	let end_id = "0";
 	let list = [];
 	do {
-		// htmlLog(`正在获取${name}第${page}页`);
 		htmlLog(`正在獲取第${page}頁`);
 		res = await getLog(end_id);
 		// await sleep(0.2);
@@ -123,11 +121,6 @@ async function main() {
 	AuthKeyVer = uri.searchParams.get('authkey_ver') || '1'
 	Lang = uri.searchParams.get('lang') || 'zh-cn'
 
-	// const gachaTypes = await fetch2(`${GachaTypesUrl}?authkey=${AuthKey}&authkey_ver=${AuthKeyVer}&lang=${Lang}`)
-	// 	.then((data) => data.data.gacha_type_list);
-	// htmlLog("获取抽卡活动类型成功");
-
-	// htmlLog("开始获取抽卡记录");
 	const workbook = new ExcelJS.Workbook();
 
 	const sheet = workbook.addWorksheet("原石", {
@@ -149,9 +142,8 @@ async function main() {
 		key: "add_num",
 		width: 14
 	}, ];
-	// get gacha logs
+	// get logs
 	const logs = (await getLogs()).map((item) => {
-		// const match = data.find((v) => v.item_id === item.item_id);
 		return [
 			item.time,
 			reason_json[`${reasonText}`+`${item.reason}`],
@@ -159,17 +151,6 @@ async function main() {
 		];
 	});
 	logs.reverse();
-	// idx = 0;
-	// pdx = 0;
-	// for (log of logs) {
-	// 	idx += 1;
-	// 	pdx += 1;
-	// 	log.push(idx, pdx);
-	// 	if (log[3] === 5) {
-	// 		pdx = 0;
-	// 	}
-	// }
-	// htmlLog(logs);
 	sheet.addRows(logs);
 	// set xlsx hearer style
 	["A", "B", "C"].forEach((v) => {
