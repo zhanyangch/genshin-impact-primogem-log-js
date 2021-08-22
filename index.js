@@ -49,7 +49,7 @@ function loadScript(src) {
 	});
 }
 
-async function getGachaLog(end_id) {
+async function getLog(end_id) {
 	return fetch2(
 		LogBaseUrl +
 		`?authkey=${AuthKey}` +
@@ -65,7 +65,7 @@ async function getGachaLog(end_id) {
 		.then((data) => data);
 }
 
-async function getGachaLogs() {
+async function getLogs() {
 	let page = 1,
 		data = [],
 		res = [];
@@ -74,7 +74,7 @@ async function getGachaLogs() {
 	do {
 		// htmlLog(`正在获取${name}第${page}页`);
 		htmlLog(`正在獲取第${page}頁`);
-		res = await getGachaLog(key, page, end_id);
+		res = await getLog(end_id);
 		// await sleep(0.2);
 		end_id = res.data.list.length > 0 ? res.data.list[res.data.list.length - 1].id : 0;
 		list = res.data.list;
@@ -250,7 +250,6 @@ async function main() {
 				color: {
 					argb: "ff757575"
 				},
-				bold: v[3] != "3",
 			};
 		});
 	});
