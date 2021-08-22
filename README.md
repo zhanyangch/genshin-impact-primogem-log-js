@@ -16,6 +16,6 @@ javascript:(function(){const s=document.createElement("script");s.src='https://c
 1. 新增瀏覽器書籤
 2. 遊戲內打開 派蒙選單 -> 意見回饋
 3. 在當前頁面打開書籤 會自動下載excel檔案
-4. [原神原石紀錄統計表](https://docs.google.com/spreadsheets/d/1_tWDs17TUOcH6WYOQVjgPduM0Lzc7EzAS36yNL_dmBo/edit#gid=908197187) 檔案->建立副本->將前三行修改為剛下載的excel內容
+4. [原神原石紀錄統計表](https://docs.google.com/spreadsheets/d/1_tWDs17TUOcH6WYOQVjgPduM0Lzc7EzAS36yNL_dmBo/edit?usp=sharing) 檔案->建立副本->將前三行修改為剛下載的excel內容
 5. 修改起始日期、結束日期
 6. 看看你拿到了多少原石
