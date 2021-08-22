@@ -1,17 +1,17 @@
-//https://bbs.nga.cn/read.php?tid=28133946&rand=509
 // library from cdn
 const ExcelJSUrl = "https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js";
 const FileSaverUrl = "https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js";
 const LogBaseUrl = `https://hk4e-api-os.mihoyo.com/ysulog/api/getPrimogemLog`;
+const reasonUrl = `https://mi18n-os.mihoyo.com/webstatic/admin/mi18n/hk4e_global/m02251421001311/m02251421001311-zh-tw.json`
 
 let AuthKey = ''
 let AuthKeyVer = '1'
 let Lang = 'zh-cn'
 let game_biz = '1'
 let selfquery_type = '1'
-let sign_type = '1'
-// let auth_appid = 'webview_gacha'
+let sign_type = '2'
 let auth_appid = 'bill-record-user'
+let reasonText = 'selfinquiry_general_reason_'
 
 const mask = document.createElement('div')
 mask.style = 'position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: #000e;z-index: 99999;color: #fff;padding: 20px;font-size: 12px;overflow-y: auto;'
@@ -84,6 +84,10 @@ async function getLogs() {
 	return data;
 }
 
+async function getreason(){
+    return await fetch('https://mi18n-os.mihoyo.com/webstatic/admin/mi18n/hk4e_global/m02251421001311/m02251421001311-zh-tw.json').then((res) => res.json())
+}
+
 function pad(num) {
 	return `${num}`.padStart(2, "0");
 }
@@ -115,6 +119,7 @@ async function main() {
 	if (AuthKey.includes('/')) {
 		AuthKey = encodeURIComponent(AuthKey)
 	}
+	reason_json = await getreason()
 	AuthKeyVer = uri.searchParams.get('authkey_ver') || '1'
 	Lang = uri.searchParams.get('lang') || 'zh-cn'
 
@@ -145,11 +150,11 @@ async function main() {
 		width: 14
 	}, ];
 	// get gacha logs
-	const logs = (await getGachaLogs()).map((item) => {
+	const logs = (await getLogs()).map((item) => {
 		// const match = data.find((v) => v.item_id === item.item_id);
 		return [
 			item.time,
-			item.reason,
+			reason_json[`${reasonText}`+`${item.reason}`],
 			item.add_num,
 		];
 	});
@@ -212,7 +217,7 @@ async function main() {
 	// set xlsx cell style
 	logs.forEach((v, i) => {
 		["A", "B", "C"].forEach((c) => {
-			sheet.getCell(`${c}${i + 2}`).border = {
+			sheet.getCell(`${c}${i + 1}`).border = {
 				top: {
 					style: "thin",
 					color: {
